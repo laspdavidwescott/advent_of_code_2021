@@ -14,36 +14,51 @@ def find_basin_size(heightmap, coord):
 
         Output: basin size <int>
     """
+    # Unpack the row and column
     row, column = coord
 
+    # Figure out the row and column counts
     row_count = len(heightmap)
     column_count = len(heightmap[0]) if row_count > 0 else 0
 
+    # Figure out the 4 cardinal coordinates
     north_coord = (row - 1, column)
     south_coord = (row + 1, column)
     east_coord = (row, column + 1)
     west_coord = (row, column - 1)
 
-    directional_coords = [north_coord, west_coord, south_coord, east_coord]
+    # Group coordinates together
+    cardinal_coords = [north_coord, west_coord, south_coord, east_coord]
 
+    # Get the height value for the given coordinate
     height_value = heightmap[row][column]
 
+    # Keep track of all the basin coordinates; including the given coordinate
     basin_coords = set()
     basin_coords.add((row, column))
 
-    for directional_coord in directional_coords:
-        directional_row, directional_column = directional_coord
+    # Check each direction
+    for cardinal_coord in cardinal_coords:
+        # Get the cardinal row and column
+        cardinal_row, cardinal_column = cardinal_coord
 
-        if directional_row < 0 or row_count <= directional_row or directional_column < 0 or column_count <= directional_column:
+        # If the cardinal coordinate goes off the heightmap, skip this
+        # coordinate
+        if cardinal_row < 0 or row_count <= cardinal_row or cardinal_column < 0 or column_count <= cardinal_column:
             continue
 
-        directional_height_value = heightmap[directional_row][directional_column]
+        # Get the cardinal height
+        cardinal_height_value = heightmap[cardinal_row][cardinal_column]
 
-        if directional_height_value <= height_value or directional_height_value == 9:
+        # If the cardinal height is lower than the given coordinate's height or
+        # the cardinal height is 9 (not part of a basin), skip this coordinate
+        if cardinal_height_value <= height_value or cardinal_height_value == 9:
             continue
 
-        if height_value < directional_height_value:
-            basin_coords.update(find_basin_size(heightmap, directional_coord))
+        # If the basin keeps going in the directory of the cardinal coordinate
+        if height_value < cardinal_height_value:
+            # Look for more basin coordinates
+            basin_coords.update(find_basin_size(heightmap, cardinal_coord))
 
     return basin_coords
 
