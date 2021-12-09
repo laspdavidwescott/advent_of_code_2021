@@ -47,25 +47,25 @@ For now, **focus on the easy digits**. Consider this larger example:
 
 <pre>
 be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb |
-<b>fdgacbe</b> cefdb cefbgd <b>gcbe</b>
+<b><span style="color:red">fdgacbe</span></b> cefdb cefbgd <b><span style="color:red">gcbe</span></b>
 edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec |
-fcgedb <b>cgb dgebacf gc</b>
+fcgedb <b><span style="color:red">cgb dgebacf gc</span></b>
 fgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef |
-<b>cg cg</b> fdcagb <b>cbg</b>
+<b><span style="color:red">cg cg</span></b> fdcagb <b><span style="color:red">cbg</span></b>
 fbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega |
-efabcd cedba gadfec <b>cb</b>
+efabcd cedba gadfec <b><span style="color:red">cb</span></b>
 aecbfdg fbg gf bafeg dbefa fcge gcbea fcaegb dgceab fcbdga |
-<b>gecf egdcabf bgf</b> bfgea
+<b><span style="color:red">gecf egdcabf bgf</span></b> bfgea
 fgeab ca afcebg bdacfeg cfaedg gcfdb baec bfadeg bafgc acf |
-<b>gebdcfa ecba ca fadegcb</b>
+<b><span style="color:red">gebdcfa ecba ca fadegcb</span></b>
 dbcfg fgd bdegcaf fgec aegbdf ecdfab fbedc dacgb gdcebf gf |
-<b>cefg</b> dcbef <b>fcge gbcadfe</b>
+<b><span style="color:red">cefg</span></b> dcbef <b><span style="color:red">fcge gbcadfe</span></b>
 bdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd |
-<b>ed</b> bcgafe cdgba cbgef
+<b><span style="color:red">ed</span></b> bcgafe cdgba cbgef
 egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg |
-<b>gbdfcae bgc cg cgb</b>
+<b><span style="color:red">gbdfcae bgc cg cgb</span></b>
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc |
-<b>fgae</b> cfgab <b>fg</b> bagce
+<b><span style="color:red">fgae</span></b> cfgab <b><span style="color:red">fg</span></b> bagce
 </pre>
 
 Because the digits `1`, `4`, `7`, and `8` each use a unique number of segments, you should be able to tell which combinations of signals correspond to those digits. Counting **only digits in the output values** (the part after `|` on each line), in the above example, there are `26` instances of digits that use a unique number of segments (highlighted above).

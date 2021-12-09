@@ -31,31 +31,31 @@ The submarine has a **bingo subsystem** to help passengers (currently, you and t
 After the first five numbers are drawn (`7`, `4`, `9`, `5`, and `11`), there are no winners, but the boards are marked as follows (shown here adjacent to each other to save space):
 
 <pre>
-22 13 17 <b>11</b>  0         3 15  0  2 22        14 21 17 24  <b>4</b>
- 8  2 23  <b>4</b> 24         <b>9</b> 18 13 17  <b>5</b>        10 16 15  <b>9</b> 19
-21  <b>9</b> 14 16  <b>7</b>        19  8  <b>7</b> 25 23        18  8 23 26 20
- 6 10  3 18  <b>5</b>        20 <b>11</b> 10 24  <b>4</b>        22 <b>11</b> 13  6  <b>5</b>
- 1 12 20 15 19        14 21 16 12  6         2  0 12  3  <b>7</b>
+22 13 17 <b><span style="color:red">11</span></b>  0         3 15  0  2 22        14 21 17 24  <b><span style="color:red">4</span></b>
+ 8  2 23  <b><span style="color:red">4</span></b> 24         <b><span style="color:red">9</span></b> 18 13 17  <b><span style="color:red">5</span></b>        10 16 15  <b><span style="color:red">9</span></b> 19
+21  <b><span style="color:red">9</span></b> 14 16  <b><span style="color:red">7</span></b>        19  8  <b><span style="color:red">7</span></b> 25 23        18  8 23 26 20
+ 6 10  3 18  <b><span style="color:red">5</span></b>        20 <b><span style="color:red">11</span></b> 10 24  <b><span style="color:red">4</span></b>        22 <b><span style="color:red">11</span></b> 13  6  <b><span style="color:red">5</span></b>
+ 1 12 20 15 19        14 21 16 12  6         2  0 12  3  <b><span style="color:red">7</span></b>
 </pre>
 
 After the next six numbers are drawn (`17`, `23`, `2`, `0`, `14`, and `21`), there are still no winners:
 
 <pre>
-22 13 <b>17</b> <b>11</b>  <b>0</b>         3 15  <b>0</b>  <b>2</b> 22        <b>14</b> <b>21</b> <b>17</b> 24  <b>4</b>
- 8  <b>2</b> <b>23</b>  <b>4</b> 24         <b>9</b> 18 13 <b>17</b>  <b>5</b>        10 16 15  <b>9</b> 19
-<b>21</b>  <b>9</b> <b>14</b> 16  <b>7</b>        19  8  <b>7</b> 25 <b>23</b>        18  8 <b>23</b> 26 20
- 6 10  3 18  <b>5</b>        20 <b>11</b> 10 24  <b>4</b>        22 <b>11</b> 13  6  <b>5</b>
- 1 12 20 15 19        <b>14</b> <b>21</b> 16 12  6         <b>2</b>  <b>0</b> 12  3  <b>7</b>
+22 13 <b><span style="color:red">17</span></b> <b><span style="color:red">11</span></b>  <b><span style="color:red">0</span></b>         3 15  <b><span style="color:red">0</span></b>  <b><span style="color:red">2</span></b> 22        <b><span style="color:red">14</span></b> <b><span style="color:red">21</span></b> <b><span style="color:red">17</span></b> 24  <b><span style="color:red">4</span></b>
+ 8  <b><span style="color:red">2</span></b> <b><span style="color:red">23</span></b>  <b><span style="color:red">4</span></b> 24         <b><span style="color:red">9</span></b> 18 13 <b><span style="color:red">17</span></b>  <b><span style="color:red">5</span></b>        10 16 15  <b><span style="color:red">9</span></b> 19
+<b><span style="color:red">21</span></b>  <b><span style="color:red">9</span></b> <b><span style="color:red">14</span></b> 16  <b><span style="color:red">7</span></b>        19  8  <b><span style="color:red">7</span></b> 25 <b><span style="color:red">23</span></b>        18  8 <b><span style="color:red">23</span></b> 26 20
+ 6 10  3 18  <b><span style="color:red">5</span></b>        20 <b><span style="color:red">11</span></b> 10 24  <b><span style="color:red">4</span></b>        22 <b><span style="color:red">11</span></b> 13  6  <b><span style="color:red">5</span></b>
+ 1 12 20 15 19        <b><span style="color:red">14</span></b> <b><span style="color:red">21</span></b> 16 12  6         <b><span style="color:red">2</span></b>  <b><span style="color:red">0</span></b> 12  3  <b><span style="color:red">7</span></b>
 </pre>
 
 Finally, `24` is drawn:
 
 <pre>
-22 13 <b>17</b> <b>11</b>  <b>0</b>         3 15  <b>0</b>  <b>2</b> 22        <b>14</b> <b>21</b> <b>17</b> <b>24</b>  <b>4</b>
- 8  <b>2</b> <b>23</b>  <b>4</b> <b>24</b>         <b>9</b> 18 13 <b>17</b>  <b>5</b>        10 16 15  <b>9</b> 19
-<b>21</b>  <b>9</b> <b>14</b> 16  <b>7</b>        19  8  <b>7</b> 25 <b>23</b>        18  8 <b>23</b> 26 20
- 6 10  3 18  <b>5</b>        20 <b>11</b> 10 <b>24</b>  <b>4</b>        22 <b>11</b> 13  6  <b>5</b>
- 1 12 20 15 19        <b>14</b> <b>21</b> 16 12  6         <b>2</b>  <b>0</b> 12  3  <b>7</b>
+22 13 <b><span style="color:red">17</span></b> <b><span style="color:red">11</span></b>  <b><span style="color:red">0</span></b>         3 15  <b><span style="color:red">0</span></b>  <b><span style="color:red">2</span></b> 22        <b><span style="color:red">14</span></b> <b><span style="color:red">21</span></b> <b><span style="color:red">17</span></b> <b><span style="color:red">24</span></b>  <b><span style="color:red">4</span></b>
+ 8  <b><span style="color:red">2</span></b> <b><span style="color:red">23</span></b>  <b><span style="color:red">4</span></b> <b><span style="color:red">24</span></b>         <b><span style="color:red">9</span></b> 18 13 <b><span style="color:red">17</span></b>  <b><span style="color:red">5</span></b>        10 16 15  <b><span style="color:red">9</span></b> 19
+<b><span style="color:red">21</span></b>  <b><span style="color:red">9</span></b> <b><span style="color:red">14</span></b> 16  <b><span style="color:red">7</span></b>        19  8  <b><span style="color:red">7</span></b> 25 <b><span style="color:red">23</span></b>        18  8 <b><span style="color:red">23</span></b> 26 20
+ 6 10  3 18  <b><span style="color:red">5</span></b>        20 <b><span style="color:red">11</span></b> 10 <b><span style="color:red">24</span></b>  <b><span style="color:red">4</span></b>        22 <b><span style="color:red">11</span></b> 13  6  <b><span style="color:red">5</span></b>
+ 1 12 20 15 19        <b><span style="color:red">14</span></b> <b><span style="color:red">21</span></b> 16 12  6         <b><span style="color:red">2</span></b>  <b><span style="color:red">0</span></b> 12  3  <b><span style="color:red">7</span></b>
 </pre>
 
 At this point, the third board **wins** because it has at least one complete row or column of marked numbers (in this case, the entire top row is marked: `14 21 17 24 4`).
