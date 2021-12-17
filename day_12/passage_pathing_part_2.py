@@ -25,7 +25,8 @@ def find_paths(start_cave, end_cave, max_iterations=100000000):
     # doesn't go off into infinity)
     iteration = 0
 
-    # The name of the ending cave
+    # The name of the starting and ending caves
+    start_cave_name = start_cave.getName()
     end_cave_name = end_cave.getName()
 
     # While there are paths to check
@@ -49,17 +50,31 @@ def find_paths(start_cave, end_cave, max_iterations=100000000):
 
         # Check all the connecting caves for possible paths
         for connecting_cave in connecting_caves:
-            # Maximum number of visits to a little cave
-            max_visits = 1
+            # The number of maximum allowed visits to a little cave. Start and
+            # end caves are still only allowed 1 visit.
+            max_visits = 2 if connecting_cave.getName() not in {start_cave_name, end_cave_name} else 1
 
-            # Big caves can always be visited and little caves can be visited
-            # once.
+            # If the cave is big (visit always allowed) or the cave hasn't
+            # hasn't reached the visit limit.
             if connecting_cave.isBigCave() or caves.count(connecting_cave) < max_visits:
-                # Add the next possible path to the queue
+                # The next path of caves
                 next_caves = caves + [connecting_cave]
-                cave_queue.append(next_caves)
 
-    # Something went wrong with the while loop
+                # The number of times little caves were visited
+                little_cave_visit_counts = {}
+
+                # Get the visit counts from the little caves in the upcoming
+                # path
+                for next_cave in next_caves:
+                    if next_cave.isLittleCave():
+                        little_cave_visit_counts.setdefault(next_cave.getName(), 0)
+                        little_cave_visit_counts[next_cave.getName()] += 1
+
+                # If visiting is allowed, add the path to the queue
+                if len(little_cave_visit_counts) == 0 or sum(little_cave_visit_counts.values()) - len(little_cave_visit_counts) <= 1:
+                    cave_queue.append(caves + [connecting_cave])
+
+    # While loop went to infinity
     if max_iterations <= iteration:
         print("ERROR: Maximum allowed while loop iterations ({}) reached.".format(max_iterations))
         return []
