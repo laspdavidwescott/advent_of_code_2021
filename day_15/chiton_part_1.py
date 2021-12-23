@@ -5,35 +5,26 @@ import sys
 import datetime
 
 
-def get_smallest_distance_vertex(vertex_values, vertices_visited):
-    """ Return the vertex with the smallest distance to the starting vertex
-        that has not been visited.
+def get_least_risky_vertex(vertex_risks):
+    """ Return the vertex with the least risk to the starting vertex.
 
-        Input:  vertex values [[[distance <int>, previous vertex (row <int> column <int>)]]]
-                vertices visited {(row <int>, column <int>)}
+        Input:  vertex risks { vertex (row <int>, column <int>) : risk <int> }
 
-        Output: unvisited vertex with smallest distance (row <int>, column <int>)
+        Output: unvisited vertex with least risk (row <int>, column <int>)
     """
-    # Keep track of the smallest vertex and its distance from the starting
-    # vertex
-    smallest_vertex = (None, None)
-    smallest_distance = sys.maxsize
+    # Keep track of the least risky vertex and its risk
+    least_risky_vertex = (None, None)
+    least_risk = sys.maxsize
 
-    # Check each distance
-    for row in range(len(vertex_values)):
-        for column in range(len(vertex_values[row])):
-            # Get the vertex and distance
-            vertex = (row, column)
-            distance = vertex_values[row][column][0]
+    # Check each vertex and corresponding disk
+    for vertex, risk in vertex_risks.items():
+        # Check if this is the new least risky
+        if risk < least_risk:
+            least_risky_vertex = vertex
+            least_risk = risk
 
-            # If the distance is smaller than the previous distance and the
-            # vertex hasn't been visited yet, save this vertex and distance
-            if distance < smallest_distance and vertex not in vertices_visited:
-                smallest_distance = distance
-                smallest_vertex = vertex
-
-    # Return the smallest vertex
-    return smallest_vertex
+    # Return the least risky vertex
+    return least_risky_vertex
 
 
 def get_vertex_neighbors(vertex, row_count, column_count, vertices_visited):
@@ -99,15 +90,22 @@ def main():
         print("Risk level map not found in {}".format(args.file))
         exit(1)
 
-    # The graph [[risk level <int>]]
-    risk_level_graph = [list(map(int, list(risk_levels))) for risk_levels in risk_level_data]
+    ###########################################################################
+    # Initialize and verify map
+    ###########################################################################
 
+    # The map [[risk level <int>]]
+    risk_level_map = [list(map(int, list(risk_levels))) for risk_levels in risk_level_data]
+
+    # Get the map's row and column counts
     row_count = len(risk_level_data)
     column_count = len(risk_level_data[0]) if 0 < row_count else 0
 
+    # Get the starting vertex (row and column)
     start_row = args.start_row
     start_column = args.start_column
 
+    # Get the ending vertex (row and column)
     end_row = row_count - 1 if args.end_row is None else args.end_row
     end_column = column_count - 1 if args.end_column is None else args.end_column
 
@@ -121,49 +119,80 @@ def main():
         print("ERROR: Given ending row '{}' and column '{}' fall outside the given map.".format(end_row, end_column))
         exit(1)
 
-    vertex_values = [[[sys.maxsize, tuple([None, None])] for _ in range(len(risk_level_row))] for risk_level_row in risk_level_graph]
-    vertex_values[start_row][start_column][0] = 0
+    ###########################################################################
+    # Calculate the vertex risks from the starting vertex
+    ###########################################################################
 
-    row_count = len(vertex_values)
-    column_count = len(vertex_values[0])
+    # Initialize a matrix (2D list) of all the vertex's risks and previous
+    # vertices. Set the starting vertex's risk to 0.
+    risks_and_previous_vertices = [[[sys.maxsize, tuple([None, None])] for _ in range(len(risk_level_row))] for risk_level_row in risk_level_map]
+    risks_and_previous_vertices[start_row][start_column][0] = 0
+
+    # Total number of vertices
     vertex_count = row_count * column_count
 
+    # Keep track of the visited vertices
     vertices_visited = set()
 
-    print("Before while: {}".format(datetime.datetime.now() - start_time))
+    # Keep track least risky vertex candidates
+    least_risky_vertex_candidates = {(start_row, start_column): 0}
 
+    # While there are vertices to visit
     while len(vertices_visited) < vertex_count:
-        start_vertex_time = datetime.datetime.now()
+        if args.debug:
+            start_vertex_time = datetime.datetime.now()
 
-        current_vertex = get_smallest_distance_vertex(vertex_values, vertices_visited)
-        row, column = current_vertex
+        # Get the least risky vertex that hasn't been visited (current vertex)
+        current_vertex = get_least_risky_vertex(least_risky_vertex_candidates)
+        current_row, current_column = current_vertex
 
         if args.debug:
             print("Current Vertex: {}".format(current_vertex))
 
+        # Get the current vertex's unvisited neighboring vertices
         neighbor_vertices = get_vertex_neighbors(current_vertex, row_count, column_count, vertices_visited)
 
+        # Check each neighboring vertex
         for neighbor_vertex in neighbor_vertices:
+            # Split the vertex up into row and column
             neighbor_row, neighbor_column = neighbor_vertex
-            distance = vertex_values[row][column][0] + risk_level_graph[neighbor_row][neighbor_column]
+
+            # Calculate the risk from start to this vertex
+            risk = risks_and_previous_vertices[current_row][current_column][0] + risk_level_map[neighbor_row][neighbor_column]
 
             if args.debug:
-                print("    Neighbor Vertex: {} --> {}".format(neighbor_vertex, distance))
+                print("    Neighbor Vertex: {} --> {}".format(neighbor_vertex, risk))
 
-            if distance < vertex_values[neighbor_row][neighbor_column][0]:
-                vertex_values[neighbor_row][neighbor_column][0] = distance
-                vertex_values[neighbor_row][neighbor_column][1] = current_vertex
+            # If the calculated (above) risk is less than the saved risk
+            if risk < risks_and_previous_vertices[neighbor_row][neighbor_column][0]:
+                # Update the neighbor's risk and "previous" vertex
+                risks_and_previous_vertices[neighbor_row][neighbor_column][0] = risk
+                risks_and_previous_vertices[neighbor_row][neighbor_column][1] = current_vertex
 
+                # Update the least risky vertex candidates
+                least_risky_vertex_candidates[(neighbor_row, neighbor_column)] = risk
+
+        # Mark the vertex as visited
         vertices_visited.add(current_vertex)
 
-        print("    Vertex time: {}".format(datetime.datetime.now() - start_vertex_time))
+        # Remove the vertex from the least risky vertex candidates (since it's
+        # been visited)
+        del least_risky_vertex_candidates[current_vertex]
+
+        if args.debug:
+            print("    Vertex time: {}".format(datetime.datetime.now() - start_vertex_time))
 
     if args.debug:
         print()
 
-    total_risk = vertex_values[end_row][end_column][0]
+    ###########################################################################
+    # Report
+    ###########################################################################
+
+    total_risk = risks_and_previous_vertices[end_row][end_column][0]
     start_vertex = (start_row, start_column)
     end_vertex = (end_row, end_column)
+
     print("The total risk to go from {} to {} is {}".format(start_vertex, end_vertex, total_risk))
     print("Elapsed Time: {}".format(datetime.datetime.now() - start_time))
 
